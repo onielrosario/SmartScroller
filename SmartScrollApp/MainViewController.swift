@@ -54,14 +54,15 @@ extension MainViewController: ARSessionDelegate {
         guard let lookupScrollLeft = blendShape[.eyeLookUpLeft] as? Float else { return }
         guard let lookDownRight = blendShape[.eyeLookDownRight] as? Float else { return }
         guard let leftBlink = blendShape[.eyeBlinkLeft] as? Double else { return }
-        let viewLocation = wkWebview.scrollView.contentOffset.y
+        var viewLocation = wkWebview.scrollView.contentOffset.y
         print(lookupScrollLeft, lookDownRight)
         print(viewLocation)
-        print(leftBlink)
-        if lookupScrollLeft > 0.050 {
-           wkWebview.scrollView.setContentOffset(CGPoint(x: wkWebview.scrollView.contentOffset.x, y: CGFloat(lookupScrollLeft) - viewLocation), animated: true)
-        } else if lookDownRight < 0.05 {
-                  wkWebview.scrollView.setContentOffset(CGPoint(x: wkWebview.scrollView.contentOffset.x, y: CGFloat(lookDownRight) + viewLocation), animated: true)
+        if lookupScrollLeft >= 0.010 {
+            viewLocation -= CGFloat(lookupScrollLeft)
+            wkWebview.scrollView.contentOffset = CGPoint(x: 0, y: viewLocation)
+        } else if lookDownRight >= 0.010 {
+            viewLocation += CGFloat(lookDownRight)
+            wkWebview.scrollView.contentOffset = CGPoint(x: 0, y: Int(lookDownRight + Float(viewLocation)))
         }
         if leftBlink >= 0.0 {
             wkWebview.goBack()
