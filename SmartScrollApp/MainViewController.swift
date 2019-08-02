@@ -51,12 +51,9 @@ extension MainViewController: ARSessionDelegate {
     
     func Scroll(withFaceAnchor faceAnchor: ARFaceAnchor) {
         var blendShape: [ARFaceAnchor.BlendShapeLocation: Any] = faceAnchor.blendShapes
-        guard let lookupScrollLeft = blendShape[.eyeLookUpLeft] as? Float else { return }
-        guard let lookDownRight = blendShape[.eyeLookDownRight] as? Float else { return }
-        guard let leftBlink = blendShape[.eyeBlinkLeft] as? Double else { return }
+        guard let lookupScrollLeft = blendShape[.eyeLookUpLeft] as? Float , let lookDownRight = blendShape[.eyeLookDownRight] as? Float , let leftBlink = blendShape[.eyeBlinkLeft] as? Double , let rightBlink = blendShape[.eyeBlinkRight] as? Double else {return }
         var viewLocation = wkWebview.scrollView.contentOffset.y
-        print(lookupScrollLeft, lookDownRight)
-        print(viewLocation)
+       print(rightBlink)
         if lookupScrollLeft >= 0.010 {
             viewLocation -= CGFloat(lookupScrollLeft)
             wkWebview.scrollView.contentOffset = CGPoint(x: 0, y: viewLocation)
@@ -64,8 +61,10 @@ extension MainViewController: ARSessionDelegate {
             viewLocation += CGFloat(lookDownRight)
             wkWebview.scrollView.contentOffset = CGPoint(x: 0, y: Int(lookDownRight + Float(viewLocation)))
         }
-        if leftBlink >= 0.0 {
+        if leftBlink >= 0.010 {
             wkWebview.goBack()
-        }
+        } else if rightBlink >= 0.010 {
+            wkWebview.goForward()
+        } 
     }
 }
