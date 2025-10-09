@@ -1,1 +1,10 @@
 .DS_Store
+
+*.ipa
+*.dSYM.zip
+*.xcuserstate
+xcuserstate
+profiles/
+certs/
+
+.env
