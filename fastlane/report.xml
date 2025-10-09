@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="fastlane.lanes">
+    
+    
+    
+      
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.000274">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="1: ensure_git_status_clean" time="0.01445">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="2: get_version_number" time="0.024859">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="3: latest_testflight_build_number" time="3.096901">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="4: increment_build_number" time="0.171458">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="5: get_certificates" time="1.842992">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="6: get_provisioning_profile" time="2.111224">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="7: build_app" time="17.068992">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="8: app_store_connect_api_key" time="0.001326">
+        
+      </testcase>
+    
+      
+      <testcase classname="fastlane.lanes" name="9: upload_to_testflight" time="170.313576">
+        
+      </testcase>
+    
+  </testsuite>
+</testsuites>

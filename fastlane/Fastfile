@@ -1,0 +1,71 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+    ensure_git_status_clean
+
+    # Versioning
+    version = get_version_number(
+      xcodeproj: "SmartScrollApp.xcodeproj",
+      target: "SmartScrollApp"
+    )
+
+    latest = (latest_testflight_build_number(
+       app_identifier: "typesAndVariables.SmartScrollApp",
+       version: version,
+       live: false,
+       platform: "ios"
+     ) rescue 0).to_i
+
+    increment_build_number(
+       xcodeproj: "SmartScrollApp.xcodeproj",
+       build_number: latest + 1
+    )
+
+    # Get or create the certificate and provisioning profile
+    get_certificates(
+      output_path: "./certs"
+    )
+    
+    get_provisioning_profile(
+      output_path: "./profiles",
+      filename: "appstore.mobileprovision"
+    )
+    
+    # Build the app
+    build_app(
+      scheme: "SmartScrollApp",
+      export_method: "app-store",
+      xcargs: "-allowProvisioningUpdates"
+    )
+
+    # Upload API key (no passwords)
+    app_store_connect_api_key(
+      key_id: ENV["ASC_KEY_ID"],
+      issuer_id: ENV["ASC_ISSUER_ID"],
+      key_filepath: ENV["ASC_KEY_FILEPATH"]
+    )
+    
+    # Upload to TestFlight
+    upload_to_testflight(
+      skip_waiting_for_build_processing: false,
+      wait_processing_timeout_duration: 1800  # Wait max 30 minutes
+    )
+  end
+end
