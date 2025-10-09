@@ -24,6 +24,9 @@ struct ContentView: View {
                 WebViewWrapper(url: viewModel.url, behavior: $viewModel.scrollBehavior)
             }
         }
+        .task {
+            viewModel.setupSession()
+        }
         .onChange(of: viewModel.scrollBehavior) {
            switch viewModel.scrollBehavior {
                 case .scrollDown:
